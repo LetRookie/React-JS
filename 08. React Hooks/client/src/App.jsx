@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header';
 import ToDoList from './components/ToDoList';
+import AddTodoModal from './components/AddTodoModal';
 
 
 const baseUrl = 'http://localhost:3030/jsonstore/todos';
@@ -15,14 +16,28 @@ function App() {
             .then(res => res.json())
             .then(result => {
                 setTodos(Object.values(result))
-                console.log(Object.values(result));
             })
     },[])
+
+    const onTodoAdd = async (values) => {
+
+        const response = await fetch(baseUrl, {
+            method: 'POST',
+            headers : {
+                'content-type':'application/json'
+            },
+            body: JSON.stringify(values)
+        });
+
+        const result = await response.json();
+        console.log(result);
+    }
 
     return (
         <>
          <Header />
          <ToDoList todos={todos} />
+         <AddTodoModal onTodoAdd={onTodoAdd}/>
         </>
     )
 }

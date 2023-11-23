@@ -1,10 +1,10 @@
 import ListGroup from 'react-bootstrap/ListGroup';
 
 
-export default function ToDoItem(
+export default function ToDoItem({
     text,
-    isComplited
-) {
+    isCompleted
+}) {
     return (
         <ListGroup.Item action>
             {text}
