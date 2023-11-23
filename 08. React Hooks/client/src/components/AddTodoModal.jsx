@@ -6,13 +6,15 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
 export default function AddTodoModal ({
-    onTodoAdd,
+    onTodoAddSubmit,
+    onTodoAddClose,
+    show
 }) {
-    const {formValues, onChangeHandler, onSubmit} = useForm({text:''}, onTodoAdd);
+    const {formValues, onChangeHandler, onSubmit} = useForm({text:''}, onTodoAddSubmit);
 
     return (
-        <Modal show={true}>
-            <Modal.Header closeButton>
+        <Modal show={show} onHide={onTodoAddClose}>
+            <Modal.Header closeButton onClick={onTodoAddClose}>
                 <Modal.Title>Add To-Do</Modal.Title>
             </Modal.Header>
 
@@ -26,7 +28,7 @@ export default function AddTodoModal ({
                     <Button variant="primary" type="submit">
                         Submit
                     </Button>
-                    <Button variant="secondary" style={{ marginLeft: "10px" }}>Close</Button>
+                    <Button variant="secondary" style={{ marginLeft: "10px" }} onClick={onTodoAddClose}>Close</Button>
                 </Form>
             </Modal.Body>
         </Modal>
