@@ -1,4 +1,5 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
+import { TodoContext } from './contexts/todoContext';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header';
@@ -12,20 +13,20 @@ function App() {
     const [todos, setTodos] = useState([]);
     const [showAddTodo, setShowAddTodo] = useState(false);
 
-    useEffect(()=>{
+    useEffect(() => {
         fetch(baseUrl)
             .then(res => res.json())
             .then(result => {
                 setTodos(Object.values(result))
             })
-    },[])
+    }, [])
 
     const onTodoAddSubmit = async (values) => {
 
         const response = await fetch(baseUrl, {
             method: 'POST',
-            headers : {
-                'content-type':'application/json'
+            headers: {
+                'content-type': 'application/json'
             },
             body: JSON.stringify(values)
         });
@@ -47,17 +48,23 @@ function App() {
     }
 
     const onTodoDeleteClick = async (todoId) => {
-        const response = await fetch(`${baseUrl}/${todoId}`, {method: 'DELETE'});
+        const response = await fetch(`${baseUrl}/${todoId}`, { method: 'DELETE' });
         setTodos(state => state.filter(x => x._id !== todoId))
+    }
+
+    const contextValue = {
+        onTodoDeleteClick
     }
 
 
     return (
-        <>
-         <Header />
-         <ToDoList todos={todos} onTodoAddClick={onTodoAddClick} onTodoDeleteClick={onTodoDeleteClick}/>
-         <AddTodoModal show={showAddTodo} onTodoAddSubmit={onTodoAddSubmit} onTodoAddClose={onTodoAddClose}/>
-        </>
+        <TodoContext.Provider value={contextValue}>
+            <>
+                <Header />
+                <ToDoList todos={todos} onTodoAddClick={onTodoAddClick} onTodoDeleteClick={onTodoDeleteClick} />
+                <AddTodoModal show={showAddTodo} onTodoAddSubmit={onTodoAddSubmit} onTodoAddClose={onTodoAddClose} />
+            </>
+        </TodoContext.Provider>
     )
 }
 

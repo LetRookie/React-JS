@@ -14,7 +14,7 @@ export default function AddTodoModal ({
 
     return (
         <Modal show={show} onHide={onTodoAddClose}>
-            <Modal.Header closeButton onClick={onTodoAddClose}>
+            <Modal.Header closeButton >
                 <Modal.Title>Add To-Do</Modal.Title>
             </Modal.Header>
 
